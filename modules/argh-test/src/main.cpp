@@ -2,7 +2,7 @@
 
 /*
 Usage:
-    --timeout=1000 or -t=1000
+    --call out_offers_14_15_new.log --timeout=500 --index=24533 --delay=500
 */
 
 int main(int argc, char* argv[])
@@ -11,10 +11,19 @@ int main(int argc, char* argv[])
     {
         auto cmdl = argh::parser(argc, argv);
 
-        unsigned int timeout;
-        cmdl({ "t", "timeout" }, 100) >> timeout;
+        if (cmdl[{"-c", "--call"}]) {
+            unsigned int threadCount;
+            cmdl({ "-t", "--thread" }, 1) >> threadCount;
+            unsigned int delay;
+            cmdl({ "-d", "--delay" }, 0) >> delay;
+            unsigned int startIndex;
+            cmdl({ "-i", "--index" }, 1) >> startIndex;
 
-        std::cout << timeout << std::endl;
+            std::cout << "call: "<< cmdl[1] 
+                << " thread:" << threadCount
+                << " delay:" << delay
+                << " startIndex: " << startIndex << std::endl;
+        }
     }
     catch (const std::exception& e)
     {
